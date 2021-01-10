@@ -31,7 +31,7 @@ public class JFrameOpciones extends JFrame {
 
 	private ArrayList<Maestro> maestros;
 	private ArrayList<Alumno> alumnos;
-	private Ventana ventana;
+	private Ventana ventana; 
 
 	public JFrameOpciones(Ventana ventana, ArrayList<Maestro> maestros) throws SQLException {
 		this.ventana = ventana;
