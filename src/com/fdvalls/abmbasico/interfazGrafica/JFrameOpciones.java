@@ -29,9 +29,10 @@ public class JFrameOpciones extends JFrame {
 	private JButton botonModificarAlumno = new JButton("Modificar Alumno");
 	private JButton botonModificarMaestro = new JButton("Modificar Maestro");
 
-	private ArrayList<Maestro> maestros;
+	
 	private ArrayList<Alumno> alumnos;
-	private Ventana ventana; 
+	private Ventana ventana;
+	private ArrayList<Maestro> maestros;//cambio de pos
 
 	public JFrameOpciones(Ventana ventana, ArrayList<Maestro> maestros) throws SQLException {
 		this.ventana = ventana;
