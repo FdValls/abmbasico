@@ -29,17 +29,16 @@ public class JFrameOpciones extends JFrame {
 	private JButton botonModificarAlumno = new JButton("Modificar Alumno");
 	private JButton botonModificarMaestro = new JButton("Modificar Maestro");
 
-	
 	private ArrayList<Alumno> alumnos;
 	private Ventana ventana;
-	private ArrayList<Maestro> maestros;//cambio de pos
+	private ArrayList<Maestro> maestros;
 
-	public JFrameOpciones(Ventana ventana, ArrayList<Maestro> maestros) throws SQLException {
+	public JFrameOpciones(Ventana ventana) throws SQLException {
 		this.ventana = ventana;
-		this.maestros = maestros;
-		this.inicializarListaMaestros();
+		this.maestros = new ArrayList<>();
+		this.reiniciarListaMaestros();
 		this.alumnos = new ArrayList<>();
-		this.reiniciarListaAlumno(); // Copiar para maestros!
+		this.reiniciarListaAlumno();
 		this.inicializarBotones();
 
 		/*
@@ -82,43 +81,26 @@ public class JFrameOpciones extends JFrame {
 	private void inicializarBotones() {
 		botonCrearAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana);
+				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this);
+				try {
+					reiniciarListaAlumno();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				ventanaCrearAlumno.setVisible(true);
-//				String dniMaestro = JOptionPane.showInputDialog(null, "Ingrese DNI del maestro");
-//				String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre");
-//				String documento = JOptionPane.showInputDialog(null, "Ingrese su numero de DNI");
-//				String genero = JOptionPane.showInputDialog(null, "Ingrese genero");
-//				String edadStr = JOptionPane.showInputDialog(null, "Ingrese su edad");
-//				Integer edad = edadStr != null ? Integer.valueOf(edadStr) : null;
-//				String mail = JOptionPane.showInputDialog(null, "Ingrese su mail");
-//				String fecha = JOptionPane.showInputDialog(null, "Ingrese fecha de inicio");
-//				try {
-//					ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fecha);
-//					reiniciarListaAlumno();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
 			}
 		});
 
 		botonCrearMaestro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-
-				String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre");
-				String documento = JOptionPane.showInputDialog(null, "Ingrese su numero de DNI");
-				int edad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su edad"));
-				String mail = JOptionPane.showInputDialog(null, "Ingrese su mail");
+				JFrameMaestro ventanaCrearMaestro = null;
 				try {
-					ventana.crearMaestro(null, nombre, documento, edad, mail);
-					listaMaestros.clear();
-					for (Maestro maestro : ventana.obtenerTodosLosMaestros()) {
-						String maestroAMostrar = "%s (Id: %d)";
-						maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
-						listaMaestros.add(maestroAMostrar);
-					}
+					ventanaCrearMaestro = new JFrameMaestro(ventana, JFrameOpciones.this);
+					reiniciarListaMaestros();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				ventanaCrearMaestro.setVisible(true);
 			}
 		});
 
@@ -138,19 +120,16 @@ public class JFrameOpciones extends JFrame {
 		});
 
 		botonBorrarMaestro.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent actionEvent) {
-				int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su Id"));
-				try {
-					ventana.borrarMaestro(id);
-					listaMaestros.clear();
-					for (Maestro maestro : ventana.obtenerTodosLosMaestros()) {
-						String maestroAMostrar = "%s (Id: %d)";
-						maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
-						listaMaestros.add(maestroAMostrar);
+				int indiceMaestroSeleccionado = listaMaestros.getSelectedIndex();
+				if (indiceMaestroSeleccionado >= 0) {
+					try {
+						Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
+						ventana.borrarMaestro(maestroSeleccionado.getIdMaestro());
+						reiniciarListaMaestros();
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 		});
@@ -193,16 +172,7 @@ public class JFrameOpciones extends JFrame {
 		});
 	}
 
-	private void inicializarListaMaestros() {
-		for (Maestro maestro : this.maestros) {
-			String maestroAMostrar = "%s (Id: %d)";
-			maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
-			listaMaestros.add(maestroAMostrar);
-		}
-
-	}
-
-	private void reiniciarListaAlumno() throws SQLException {
+	public void reiniciarListaAlumno() throws SQLException {
 		listaAlumnos.removeAll();
 		alumnos = ventana.obtenerTodosLosAlumnos();
 		for (Alumno alumno : alumnos) {
@@ -210,6 +180,17 @@ public class JFrameOpciones extends JFrame {
 			alumnoAMostrar = String.format(alumnoAMostrar, alumno.getNombre(), alumno.getMaestro().getNombre());
 			listaAlumnos.add(alumnoAMostrar);
 		}
+	}
+
+	public void reiniciarListaMaestros() throws SQLException {
+		listaMaestros.removeAll();
+		maestros = ventana.obtenerTodosLosMaestros();
+		for (Maestro maestro : this.maestros) {
+			String maestroAMostrar = "%s (Id: %d)";
+			maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
+			listaMaestros.add(maestroAMostrar);
+		}
+
 	}
 
 }
