@@ -14,8 +14,7 @@ public class Ventana extends InterfazGrafica {
 	private final ServicioDeAlumnos servicioDeAlumnos = new ServicioDeAlumnos();
 
 	public void dibujarInterfaz() throws SQLException {
-		ArrayList<Maestro> maestros = this.servicioDeMaestros.obtenerTodosLosMaestros();
-		JFrameOpciones ventanaOpciones = new JFrameOpciones(this, maestros);
+		JFrameOpciones ventanaOpciones = new JFrameOpciones(this);
 		ventanaOpciones.setVisible(true);
 	}
 
@@ -26,7 +25,7 @@ public class Ventana extends InterfazGrafica {
 
 	public void crearMaestro(Integer idMaestro, String nombre, String documento, int edad, String mail)
 			throws SQLException {
-		servicioDeMaestros.crearMaestro(idMaestro, nombre, documento, edad, mail);
+		servicioDeMaestros.crearMaestro(null, nombre, documento, edad, mail);
 	}
 
 	public void borrarAlumno(String dni) throws SQLException {
