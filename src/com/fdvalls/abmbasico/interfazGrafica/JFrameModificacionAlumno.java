@@ -4,18 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import com.fdvalls.abmbasico.modelo.Alumno;
-
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.Button;
 import java.awt.Label;
 import java.awt.TextField;
-import java.awt.Panel;
 
 public class JFrameModificacionAlumno extends JFrame {
 

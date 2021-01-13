@@ -81,19 +81,4 @@ public class AlumnoDAO {
 		instruccion.close();
 	}
 
-	public void mostrarDatosAlumno() throws SQLException {
-		Statement instruccion = Conexion.getInstance().createStatement();
-		String sql = "select nombre, documento, genero, edad, mail, fechaIngreso from alumnos";
-		ResultSet result = instruccion.executeQuery(sql);
-		while (result.next()) {
-			System.out.println("Nombre: " + result.getString(1));
-			System.out.println("Documento: " + result.getString(2));
-			System.out.println("Genero: " + result.getString(3));
-			System.out.println("Edad: " + result.getString(4));
-			System.out.println("Mail: " + result.getString(5));
-			System.out.println("Fecha de Ingreso: " + result.getString(6) + "\n");
-		}
-		instruccion.close();
-	}
-
 }

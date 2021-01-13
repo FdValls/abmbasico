@@ -2,7 +2,6 @@ package com.fdvalls.abmbasico;
 
 import java.sql.SQLException;
 
-import com.fdvalls.abmbasico.interfazGrafica.Consola;
 import com.fdvalls.abmbasico.interfazGrafica.InterfazGrafica;
 import com.fdvalls.abmbasico.interfazGrafica.Ventana;
 
