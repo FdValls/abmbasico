@@ -52,6 +52,11 @@ public class ServicioDeAlumnos {
 		return sePudo;
 	}
 	
+	public void mostrarDatosAlumno() throws SQLException {
+		AlumnoDAO alumnoDAO = new AlumnoDAO();
+		alumnoDAO.mostrarDatosAlumno();
+	}
+	
 	
 
 }

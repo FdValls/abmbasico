@@ -84,7 +84,7 @@ public class JFrameMaestro extends JFrame {
 				String documento = textFieldDocumento.getText();
 				if (documento == null || documento.isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"El nombre del maestro no puede estar vacío, campo obligatorio");
+							"El documento del maestro no puede estar vacío, campo obligatorio");
 					error = true;
 				}
 				Integer edad = Integer.parseInt(textFieldEdad.getText());

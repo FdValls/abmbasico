@@ -65,19 +65,34 @@ public class AlumnoDAO {
 		return a;
 	}
 
-	public void modificarAlumno(String nombre, String dniAlumno, String genero, int edad,
-			String mail, String fecha) throws SQLException {
+	public void modificarAlumno(String nombre, String dniAlumno, String genero, int edad, String mail, String fecha)
+			throws SQLException {
 		Statement instruccion = Conexion.getInstance().createStatement();
-		String sql1 = "update alumnos set nombre = '" +nombre+"' where documento = "+dniAlumno;
-		String sql2 = "update alumnos set genero = '" +genero+"' where documento = "+dniAlumno;
-		String sql3 = "update alumnos set edad = '" +edad+"' where documento = "+dniAlumno;
-		String sql4 = "update alumnos set mail = '" +mail+"' where documento = "+dniAlumno;
-		String sql6 = "update alumnos set fechaIngreso = '" +fecha+"' where documento = "+dniAlumno;
+		String sql1 = "update alumnos set nombre = '" + nombre + "' where documento = " + dniAlumno;
+		String sql2 = "update alumnos set genero = '" + genero + "' where documento = " + dniAlumno;
+		String sql3 = "update alumnos set edad = '" + edad + "' where documento = " + dniAlumno;
+		String sql4 = "update alumnos set mail = '" + mail + "' where documento = " + dniAlumno;
+		String sql6 = "update alumnos set fechaIngreso = '" + fecha + "' where documento = " + dniAlumno;
 		instruccion.executeUpdate(sql1);
 		instruccion.executeUpdate(sql2);
 		instruccion.executeUpdate(sql3);
 		instruccion.executeUpdate(sql4);
 		instruccion.executeUpdate(sql6);
+		instruccion.close();
+	}
+
+	public void mostrarDatosAlumno() throws SQLException {
+		Statement instruccion = Conexion.getInstance().createStatement();
+		String sql = "select nombre, documento, genero, edad, mail, fechaIngreso from alumnos";
+		ResultSet result = instruccion.executeQuery(sql);
+		while (result.next()) {
+			System.out.println("Nombre: " + result.getString(1));
+			System.out.println("Documento: " + result.getString(2));
+			System.out.println("Genero: " + result.getString(3));
+			System.out.println("Edad: " + result.getString(4));
+			System.out.println("Mail: " + result.getString(5));
+			System.out.println("Fecha de Ingreso: " + result.getString(6) + "\n");
+		}
 		instruccion.close();
 	}
 

@@ -1,7 +1,6 @@
 package com.fdvalls.abmbasico.interfazGrafica;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -136,40 +135,36 @@ public class JFrameOpciones extends JFrame {
 
 		botonModificarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				String dniAlumno = JOptionPane.showInputDialog(null, "Ingrese DNI del alumno");
-				String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre");
-				String genero = JOptionPane.showInputDialog(null, "Ingrese genero");
-				int edad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su edad"));
-				String mail = JOptionPane.showInputDialog(null, "Ingrese su mail");
-				String fecha = JOptionPane.showInputDialog(null, "Ingrese fecha de inicio");
+				JFrameModificacionAlumno ventanaModificarAlumno = null;
+				int indiceAlumnoSeleccionado = listaAlumnos.getSelectedIndex();
 				try {
-					ventana.modificarAlumno(dniAlumno, nombre, genero, edad, mail, fecha);
-					reiniciarListaAlumno();
+					Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
+					ventanaModificarAlumno = new JFrameModificacionAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+					reiniciarListaMaestros();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				ventanaModificarAlumno.setVisible(true);
 			}
 		});
 
 		botonModificarMaestro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre");
-				String dni = JOptionPane.showInputDialog(null, "Ingrese su numero de DNI");
-				int edad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese su edad"));
-				String mail = JOptionPane.showInputDialog(null, "Ingrese su mail");
-				try {
-					ventana.modificarMaestro(nombre, dni, edad, mail);
-					listaMaestros.removeAll();
-					for (Maestro maestro : ventana.obtenerTodosLosMaestros()) {
-						String maestroAMostrar = "%s (Id: %d)";
-						maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
-						listaMaestros.add(maestroAMostrar);
+				JFrameModificacionMaestro ventanaModificarMaestro = null;
+				int indiceMaestroSeleccionado = listaMaestros.getSelectedIndex();
+				if (indiceMaestroSeleccionado >= 0) {
+					try {
+						Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
+						ventanaModificarMaestro = new JFrameModificacionMaestro(ventana, JFrameOpciones.this, maestroSeleccionado);
+						reiniciarListaMaestros();
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
+				ventanaModificarMaestro.setVisible(true);
 			}
 		});
+
 	}
 
 	public void reiniciarListaAlumno() throws SQLException {
@@ -190,7 +185,5 @@ public class JFrameOpciones extends JFrame {
 			maestroAMostrar = String.format(maestroAMostrar, maestro.getNombre(), maestro.getIdMaestro());
 			listaMaestros.add(maestroAMostrar);
 		}
-
 	}
-
 }

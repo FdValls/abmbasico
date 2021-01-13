@@ -7,6 +7,7 @@ import com.fdvalls.abmbasico.modelo.Alumno;
 import com.fdvalls.abmbasico.modelo.Maestro;
 import com.fdvalls.abmbasico.servicios.ServicioDeAlumnos;
 import com.fdvalls.abmbasico.servicios.ServicioDeMaestros;
+import com.mysql.cj.xdevapi.Statement;
 
 public class Ventana extends InterfazGrafica {
 
@@ -52,4 +53,9 @@ public class Ventana extends InterfazGrafica {
 	public ArrayList<Maestro> obtenerTodosLosMaestros() throws SQLException {
 		return servicioDeMaestros.obtenerTodosLosMaestros();
 	}
+
+	public void mostrarDatosAlumno() throws SQLException {
+		servicioDeAlumnos.mostrarDatosAlumno();
+	}
+
 }
