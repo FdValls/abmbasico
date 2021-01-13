@@ -3,6 +3,9 @@ package com.fdvalls.abmbasico.interfazGrafica;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.fdvalls.abmbasico.modelo.Alumno;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,6 +13,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Choice;
 
 public class JFrameAlumno extends JFrame {
 
@@ -29,15 +33,17 @@ public class JFrameAlumno extends JFrame {
 	private JLabel etiquetaEdad = new JLabel("Edad");
 	private JLabel etiquetaMail = new JLabel("Mail");
 	private JLabel etiquetaFechaIngreso = new JLabel("Fecha de ingreso");
+	private Choice choiseProfesores = new Choice();
 	private JButton botonGuardar = new JButton("Guardar");
 	private Ventana ventana;
 	private JFrameOpciones jFrameOpciones;
 	
-	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones) {
+	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) {
 		textFieldDniMaestro.setBounds(114, 47, 86, 20);
 		textFieldDniMaestro.setColumns(10);
 		this.ventana = ventana;
 		this.jFrameOpciones = jFrameOpciones;
+		this.inicializarDatos(alumno);
 		inicializarBotones();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 450);
@@ -95,12 +101,26 @@ public class JFrameAlumno extends JFrame {
 		contentPane.add(etiquetaMaestro);
 
 		contentPane.add(textFieldDniMaestro);
+		
+		
+		choiseProfesores.setBounds(115, 21, 85, 20);
+		contentPane.add(choiseProfesores);
+	}
+	
+	private void inicializarDatos(Alumno alumno) {
+		//choiseProfesores.add("John kreese");
+		if (alumno != null) {
+			this.textFieldNombre.setText(alumno.getNombre());
+			this.textFieldDocumento.setText(alumno.getDocumento());
+			this.textFieldDocumento.setEnabled(false);
+		}
 	}
 
 	private void inicializarBotones() {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
+				//choiseProfesores.getSelectedIndex()
 				String dniMaestro = textFieldDniMaestro.getText();
 				if (dniMaestro == null || dniMaestro.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vacío, campo obligatorio");

@@ -80,7 +80,7 @@ public class JFrameOpciones extends JFrame {
 	private void inicializarBotones() {
 		botonCrearAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this);
+				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, null);
 				try {
 					reiniciarListaAlumno();
 				} catch (SQLException e) {
@@ -135,16 +135,17 @@ public class JFrameOpciones extends JFrame {
 
 		botonModificarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameModificacionAlumno ventanaModificarAlumno = null;
+//				JFrameModificacionAlumno ventanaModificarAlumno = null;
 				int indiceAlumnoSeleccionado = listaAlumnos.getSelectedIndex();
-				try {
+//				try {
 					Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
-					ventanaModificarAlumno = new JFrameModificacionAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
-					reiniciarListaMaestros();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				ventanaModificarAlumno.setVisible(true);
+					JFrameAlumno ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+//					ventanaModificarAlumno = new JFrameModificacionAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+//					reiniciarListaMaestros();
+					ventanaAlumno.setVisible(true);
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 

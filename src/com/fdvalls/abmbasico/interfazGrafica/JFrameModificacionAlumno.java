@@ -134,8 +134,7 @@ public class JFrameModificacionAlumno extends JFrame {
 				}
 				if (!error) {
 					try {
-						ventana.borrarAlumno(alumnoSeleccionado.getDocumento());
-						ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fecha);
+						ventana.modificarAlumno(alumnoSeleccionado.getMaestro().getDocumento(), nombre, genero, edad, mail, fecha);
 						jFrameOpciones.reiniciarListaAlumno();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
