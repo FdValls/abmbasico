@@ -65,14 +65,14 @@ public class AlumnoDAO {
 		return a;
 	}
 
-	public void modificarAlumno(String nombre, String dniAlumno, String genero, int edad,
-			String mail, String fecha) throws SQLException {
+	public void modificarAlumno(String nombre, String dniAlumno, String genero, int edad, String mail, String fecha)
+			throws SQLException {
 		Statement instruccion = Conexion.getInstance().createStatement();
-		String sql1 = "update alumnos set nombre = '" +nombre+"' where documento = "+dniAlumno;
-		String sql2 = "update alumnos set genero = '" +genero+"' where documento = "+dniAlumno;
-		String sql3 = "update alumnos set edad = '" +edad+"' where documento = "+dniAlumno;
-		String sql4 = "update alumnos set mail = '" +mail+"' where documento = "+dniAlumno;
-		String sql6 = "update alumnos set fechaIngreso = '" +fecha+"' where documento = "+dniAlumno;
+		String sql1 = "update alumnos set nombre = '" + nombre + "' where documento = " + dniAlumno;
+		String sql2 = "update alumnos set genero = '" + genero + "' where documento = " + dniAlumno;
+		String sql3 = "update alumnos set edad = '" + edad + "' where documento = " + dniAlumno;
+		String sql4 = "update alumnos set mail = '" + mail + "' where documento = " + dniAlumno;
+		String sql6 = "update alumnos set fechaIngreso = '" + fecha + "' where documento = " + dniAlumno;
 		instruccion.executeUpdate(sql1);
 		instruccion.executeUpdate(sql2);
 		instruccion.executeUpdate(sql3);

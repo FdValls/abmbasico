@@ -20,8 +20,8 @@ public class ServicioDeAlumnos {
 		return misAlumnos;
 	}
 
-	public void crearAlumno(String dniMaestro, String nombre, String documento, String genero, int edad,
-			String mail, String fecha) throws SQLException {
+	public void crearAlumno(String dniMaestro, String nombre, String documento, String genero, int edad, String mail,
+			String fecha) throws SQLException {
 		Maestro maestro = maestroDAO.obtenerMaestroPorDNI(dniMaestro);
 		Alumno a = new Alumno(null, maestro, nombre, documento, genero, edad, mail, fecha);
 		alumnoDAO.crearAlumno(a);
@@ -38,20 +38,16 @@ public class ServicioDeAlumnos {
 		}
 		return sePudo;
 	}
-	
-	public boolean modificarAlumno(String dniAlumno, String nombre, String genero, int edad,
-			String mail, String fecha) throws SQLException {
+
+	public boolean modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
+			throws SQLException {
 		boolean sePudo = false;
 		AlumnoDAO alumnoDAO = new AlumnoDAO();
 		Alumno a = alumnoDAO.obtenerAlumnoPorDNI(dniAlumno);
 		if (a != null) {
-			alumnoDAO.modificarAlumno(nombre, dniAlumno, genero, edad,
-					mail, fecha);
+			alumnoDAO.modificarAlumno(nombre, dniAlumno, genero, edad, mail, fecha);
 			sePudo = true;
 		}
 		return sePudo;
 	}
-	
-	
-
 }
