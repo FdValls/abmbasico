@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.fdvalls.abmbasico.modelo.Alumno;
+import com.fdvalls.abmbasico.modelo.Maestro;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -37,14 +38,14 @@ public class JFrameAlumno extends JFrame {
 	private JButton botonGuardar = new JButton("Guardar");
 	private Ventana ventana;
 	private JFrameOpciones jFrameOpciones;
-	
+
 	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) {
 		textFieldDniMaestro.setBounds(114, 47, 86, 20);
 		textFieldDniMaestro.setColumns(10);
 		this.ventana = ventana;
 		this.jFrameOpciones = jFrameOpciones;
 		this.inicializarDatos(alumno);
-		inicializarBotones();
+		this.inicializarBotones(alumno);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 450);
 		contentPane = new JPanel();
@@ -86,14 +87,14 @@ public class JFrameAlumno extends JFrame {
 
 		contentPane.add(etiquetaMail);
 
-		textFieldFechaDeIngreso.setBounds(96, 202, 86, 20);
+		textFieldFechaDeIngreso.setBounds(125, 238, 96, 20);
 		contentPane.add(textFieldFechaDeIngreso);
 		textFieldFechaDeIngreso.setColumns(10);
 
 		etiquetaFechaIngreso.setBounds(29, 241, 94, 14);
 		contentPane.add(etiquetaFechaIngreso);
 
-		textFieldMail.setBounds(133, 238, 86, 20);
+		textFieldMail.setBounds(96, 202, 188, 20);
 		contentPane.add(textFieldMail);
 		textFieldMail.setColumns(10);
 		etiquetaMaestro.setBounds(29, 50, 86, 14);
@@ -101,26 +102,31 @@ public class JFrameAlumno extends JFrame {
 		contentPane.add(etiquetaMaestro);
 
 		contentPane.add(textFieldDniMaestro);
-		
-		
+
 		choiseProfesores.setBounds(115, 21, 85, 20);
 		contentPane.add(choiseProfesores);
 	}
-	
+
 	private void inicializarDatos(Alumno alumno) {
-		//choiseProfesores.add("John kreese");
 		if (alumno != null) {
+			choiseProfesores.add(alumno.getMaestro().getNombre());
+			this.textFieldDniMaestro.setText(alumno.getMaestro().getDocumento());
+			this.textFieldDniMaestro.setEnabled(false);
 			this.textFieldNombre.setText(alumno.getNombre());
 			this.textFieldDocumento.setText(alumno.getDocumento());
 			this.textFieldDocumento.setEnabled(false);
+			this.textFieldGenero.setText(alumno.getGenero());
+			this.textFieldEdad.setText(String.valueOf(alumno.getEdad()));
+			this.textFieldMail.setText(alumno.getMail());
+			this.textFieldFechaDeIngreso.setText(alumno.getFecha());
 		}
 	}
 
-	private void inicializarBotones() {
+	private void inicializarBotones(Alumno alumno) {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
-				//choiseProfesores.getSelectedIndex()
+				// choiseProfesores.getSelectedIndex()
 				String dniMaestro = textFieldDniMaestro.getText();
 				if (dniMaestro == null || dniMaestro.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vacío, campo obligatorio");
@@ -133,7 +139,7 @@ public class JFrameAlumno extends JFrame {
 				}
 				String documento = textFieldDocumento.getText();
 				if (documento == null || documento.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El documetno no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El documento no puede estar vacío, campo obligatorio");
 					error = true;
 				}
 				String genero = textFieldGenero.getText();
@@ -153,20 +159,25 @@ public class JFrameAlumno extends JFrame {
 					JOptionPane.showMessageDialog(null, "El mail no puede estar vacío, campo obligatorio");
 					error = true;
 				}
-				String fechaIngreso = textFieldMail.getText();
+				String fechaIngreso = textFieldFechaDeIngreso.getText();
 				if (fechaIngreso == null || fechaIngreso.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "La fecha no puede estar vacío, campo obligatorio");
 					error = true;
 				}
-				if (!error) {
+				if (!error) { 
 					try {
-						ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
-						jFrameOpciones.reiniciarListaAlumno();
+						if (alumno != null) {
+							ventana.modificarAlumno(alumno.getDocumento(), nombre, genero, edad, mail, fechaIngreso);
+							jFrameOpciones.reiniciarListaAlumno();
+						} else {
+							ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
+							jFrameOpciones.reiniciarListaAlumno();
+						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-					setVisible(false);
 				}
+				setVisible(false);
 
 			}
 

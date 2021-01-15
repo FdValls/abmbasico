@@ -82,8 +82,8 @@ public class JFrameOpciones extends JFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, null);
 				try {
-					reiniciarListaAlumno();
-				} catch (SQLException e) {
+					reiniciarListaAlumno(); 
+				} catch (SQLException e) { 
 					e.printStackTrace();
 				}
 				ventanaCrearAlumno.setVisible(true);
@@ -94,14 +94,14 @@ public class JFrameOpciones extends JFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				JFrameMaestro ventanaCrearMaestro = null;
 				try {
-					ventanaCrearMaestro = new JFrameMaestro(ventana, JFrameOpciones.this);
+					ventanaCrearMaestro = new JFrameMaestro(ventana, JFrameOpciones.this, null);
 					reiniciarListaMaestros();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				ventanaCrearMaestro.setVisible(true);
 			}
-		});
+		}); 
 
 		botonBorrarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -135,37 +135,26 @@ public class JFrameOpciones extends JFrame {
 
 		botonModificarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-//				JFrameModificacionAlumno ventanaModificarAlumno = null;
 				int indiceAlumnoSeleccionado = listaAlumnos.getSelectedIndex();
-//				try {
-					Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
-					JFrameAlumno ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
-//					ventanaModificarAlumno = new JFrameModificacionAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
-//					reiniciarListaMaestros();
-					ventanaAlumno.setVisible(true);
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
+				Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
+				JFrameAlumno ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+				ventanaAlumno.setVisible(true);
 			}
 		});
 
 		botonModificarMaestro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameModificacionMaestro ventanaModificarMaestro = null;
 				int indiceMaestroSeleccionado = listaMaestros.getSelectedIndex();
-				if (indiceMaestroSeleccionado >= 0) {
-					try {
-						Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
-						ventanaModificarMaestro = new JFrameModificacionMaestro(ventana, JFrameOpciones.this, maestroSeleccionado);
-						reiniciarListaMaestros();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+				try {
+					Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
+					JFrameMaestro ventanaMaestro;
+					ventanaMaestro = new JFrameMaestro(ventana, JFrameOpciones.this, maestroSeleccionado);
+					ventanaMaestro.setVisible(true);
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				ventanaModificarMaestro.setVisible(true);
 			}
 		});
-
 	}
 
 	public void reiniciarListaAlumno() throws SQLException {
@@ -187,4 +176,5 @@ public class JFrameOpciones extends JFrame {
 			listaMaestros.add(maestroAMostrar);
 		}
 	}
+
 }
