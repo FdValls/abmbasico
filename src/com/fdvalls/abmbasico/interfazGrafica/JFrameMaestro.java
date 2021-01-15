@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.fdvalls.abmbasico.modelo.Maestro;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -28,10 +31,11 @@ public class JFrameMaestro extends JFrame {
 	private JLabel etiquetaMail = new JLabel("Mail");
 	private JButton botonGuardar = new JButton("Guardar");
 
-	public JFrameMaestro(Ventana ventana, JFrameOpciones jFrameOpciones) throws SQLException {
+	public JFrameMaestro(Ventana ventana, JFrameOpciones jFrameOpciones, Maestro maestro) throws SQLException {
 		this.ventana = ventana;
 		this.jFrameOpciones = jFrameOpciones;
-		inicializarBotones();
+		inicializarDatos(maestro);
+		inicializarBotones(maestro);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 668, 477);
 		contentPane = new JPanel();
@@ -71,7 +75,17 @@ public class JFrameMaestro extends JFrame {
 		contentPane.add(botonGuardar);
 	}
 
-	private void inicializarBotones() {
+	private void inicializarDatos(Maestro maestro) {
+		if (maestro != null) {
+			this.textFieldNombre.setText(maestro.getNombre());
+			this.textFieldDocumento.setText(maestro.getDocumento());
+			this.textFieldDocumento.setEnabled(false);
+			this.textFieldEdad.setText(String.valueOf(maestro.getEdad()));
+			this.textFieldMail.setText(maestro.getMail());
+		}
+	}
+
+	private void inicializarBotones(Maestro maestro) {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
@@ -101,13 +115,18 @@ public class JFrameMaestro extends JFrame {
 
 				if (!error) {
 					try {
-						ventana.crearMaestro(null, nombre, documento, edad, mail);
-						jFrameOpciones.reiniciarListaMaestros();
+						if (maestro != null) {
+							ventana.modificarMaestro(nombre, documento, edad, mail);
+							jFrameOpciones.reiniciarListaMaestros();
+						} else {
+							ventana.crearMaestro(null, nombre, documento, edad, mail);
+							jFrameOpciones.reiniciarListaMaestros();
+						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
 				}
-				setVisible(false);
+				setVisible(false); 
 			}
 
 		});

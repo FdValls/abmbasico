@@ -50,7 +50,7 @@ public class MaestroDAO {
 		ResultSet result = instruccion.executeQuery(sql);
 		while (result.next()) {
 			m = new Maestro(
-					result.getInt(1),
+					result.getInt(1), 
 					result.getString(2), 
 					result.getString(3), 
 					result.getInt(4),

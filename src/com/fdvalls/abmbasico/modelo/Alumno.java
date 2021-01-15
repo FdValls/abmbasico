@@ -13,7 +13,7 @@ public class Alumno {
 
 	public Alumno(Integer idAlumno, Maestro maestro, String nombre, String documento, String genero, int edad,
 			String mail, String fecha) {
-		this.idAlumno = idAlumno;
+		this.idAlumno = idAlumno; 
 		this.maestro = maestro;
 		this.nombre = nombre;
 		this.documento = documento;

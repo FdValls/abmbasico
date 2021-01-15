@@ -35,11 +35,11 @@ public class Ventana extends InterfazGrafica {
 	public void borrarMaestro(int id) throws SQLException {
 		servicioDeMaestros.borrarMaestro(id);
 	}
-
+	//alumno.getDocumento(), nombre, genero, edad, mail, fechaIngreso
 	public void modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
 			throws SQLException {
 		servicioDeAlumnos.modificarAlumno(dniAlumno, nombre, genero, edad, mail, fecha);
-	}
+	} 
 
 	public void modificarMaestro(String nombre, String dni, int edad, String mail) throws SQLException {
 		servicioDeMaestros.modificarMaestro(nombre, dni, edad, mail);

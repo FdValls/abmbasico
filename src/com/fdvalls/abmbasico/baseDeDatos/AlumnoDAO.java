@@ -28,7 +28,7 @@ public class AlumnoDAO {
 			alumnos.add(alumno);
 		}
 		instruccion.close();
-		return alumnos;
+		return alumnos; 
 	}
 
 	public void crearAlumno(Alumno a) throws SQLException {
@@ -36,7 +36,7 @@ public class AlumnoDAO {
 		String sql = "insert into alumnos values (default, '%d', '%s', '%s', '%s', %d,'%s','%s')";
 		sql = String.format(sql, a.getMaestro().getIdMaestro(), a.getNombre(), a.getDocumento(), a.getGenero(),
 				a.getEdad(), a.getMail(), a.getFecha());
-		statement.executeUpdate(sql);
+		statement.executeUpdate(sql); 
 		statement.close();
 	}
 
@@ -65,20 +65,15 @@ public class AlumnoDAO {
 		return a;
 	}
 
-	public void modificarAlumno(String nombre, String dniAlumno, String genero, int edad, String mail, String fecha)
+	public void modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
 			throws SQLException {
 		Statement instruccion = Conexion.getInstance().createStatement();
-		String sql1 = "update alumnos set nombre = '" + nombre + "' where documento = " + dniAlumno;
-		String sql2 = "update alumnos set genero = '" + genero + "' where documento = " + dniAlumno;
-		String sql3 = "update alumnos set edad = '" + edad + "' where documento = " + dniAlumno;
-		String sql4 = "update alumnos set mail = '" + mail + "' where documento = " + dniAlumno;
-		String sql6 = "update alumnos set fechaIngreso = '" + fecha + "' where documento = " + dniAlumno;
-		instruccion.executeUpdate(sql1);
-		instruccion.executeUpdate(sql2);
-		instruccion.executeUpdate(sql3);
-		instruccion.executeUpdate(sql4);
-		instruccion.executeUpdate(sql6);
-		instruccion.close();
+		String sql = "update alumnos set nombre = '%s' and genero = '%s' "
+				+ "and edad = %d and mail = '%s' and fechaIngreso = '%s' "
+				+ "where documento = %s";
+		sql = String.format(sql, nombre, genero, edad, mail, fecha, dniAlumno);
+		instruccion.executeUpdate(sql); 
+		instruccion.close();  
 	}
 
 }
