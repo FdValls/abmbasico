@@ -68,9 +68,9 @@ public class AlumnoDAO {
 	public void modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
 			throws SQLException {
 		Statement instruccion = Conexion.getInstance().createStatement();
-		String sql = "update alumnos set nombre = '%s' and genero = '%s' "
-				+ "and edad = %d and mail = '%s' and fechaIngreso = '%s' "
-				+ "where documento = %s";
+		String sql = "update alumnos set nombre = '%s', genero = '%s' "
+				+ ",edad = %d, mail = '%s', fechaIngreso = '%s' "
+				+ "where documento = '%s'";
 		sql = String.format(sql, nombre, genero, edad, mail, fecha, dniAlumno);
 		instruccion.executeUpdate(sql); 
 		instruccion.close();  
