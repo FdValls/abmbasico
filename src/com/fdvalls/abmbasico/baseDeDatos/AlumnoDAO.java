@@ -62,7 +62,7 @@ public class AlumnoDAO {
 					result.getInt(6), result.getString(7), result.getString(8));
 		}
 		instruccion.close();
-		return a;
+		return a; 
 	}
 
 	public void modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
