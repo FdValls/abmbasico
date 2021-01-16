@@ -98,7 +98,7 @@ public class Consola extends InterfazGrafica {
 		String mail = sc.nextLine();
 		System.out.println("Ingresar una fecha de inicio");
 		String fecha = sc.nextLine();
-		SERVICIO_DE_ALUMNOS.modificarAlumno(dniAlumno, nombre, genero, edad,
+		SERVICIO_DE_ALUMNOS.modificarAlumno(dniAlumno, null,nombre, genero, edad,
 				mail, fecha);
 
 	}

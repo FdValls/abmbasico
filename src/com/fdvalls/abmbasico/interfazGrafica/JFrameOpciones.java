@@ -29,8 +29,8 @@ public class JFrameOpciones extends JFrame {
 	private JButton botonModificarMaestro = new JButton("Modificar Maestro");
 
 	private ArrayList<Alumno> alumnos;
-	private Ventana ventana;
 	private ArrayList<Maestro> maestros;
+	private Ventana ventana;
 
 	public JFrameOpciones(Ventana ventana) throws SQLException {
 		this.ventana = ventana;
@@ -80,13 +80,15 @@ public class JFrameOpciones extends JFrame {
 	private void inicializarBotones() {
 		botonCrearAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameAlumno ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, null);
+				JFrameAlumno ventanaCrearAlumno;
 				try {
-					reiniciarListaAlumno(); 
-				} catch (SQLException e) { 
-					e.printStackTrace();
+					ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, null);
+					ventanaCrearAlumno.setVisible(true);
+					reiniciarListaAlumno();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				ventanaCrearAlumno.setVisible(true);
 			}
 		});
 
@@ -101,7 +103,7 @@ public class JFrameOpciones extends JFrame {
 				}
 				ventanaCrearMaestro.setVisible(true);
 			}
-		}); 
+		});
 
 		botonBorrarAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -137,8 +139,14 @@ public class JFrameOpciones extends JFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				int indiceAlumnoSeleccionado = listaAlumnos.getSelectedIndex();
 				Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
-				JFrameAlumno ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
-				ventanaAlumno.setVisible(true);
+				JFrameAlumno ventanaAlumno;
+				try {
+					ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+					ventanaAlumno.setVisible(true);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
 

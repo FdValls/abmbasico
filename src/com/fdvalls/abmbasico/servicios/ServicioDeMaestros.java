@@ -39,12 +39,18 @@ public class ServicioDeMaestros {
 	public boolean modificarMaestro(String nombre, String dni, int edad, String mail) throws SQLException {
 		boolean sePudo = false;
 		MaestroDAO maestroDAO = new MaestroDAO();
-		Maestro a = maestroDAO.obtenerMaestroPorDNI(dni);
-		if (a != null) {
+		Maestro m = maestroDAO.obtenerMaestroPorDNI(dni);
+		if (m != null) {
 			maestroDAO.modificarMaestro(nombre, dni, edad, mail);
 			sePudo = true;
 		}
 		return sePudo;
+	}
+	
+	public Maestro obtenerMaestroPorDni(String dni) throws SQLException {
+		MaestroDAO maestroDAO = new MaestroDAO();
+		Maestro m = maestroDAO.obtenerMaestroPorDNI(dni);
+		return m;
 	}
 
 }
