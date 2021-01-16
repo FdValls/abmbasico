@@ -3,7 +3,6 @@ package com.fdvalls.abmbasico.interfazGrafica;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import com.fdvalls.abmbasico.modelo.Alumno;
 import com.fdvalls.abmbasico.modelo.Maestro;
 
@@ -13,8 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Choice;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class JFrameAlumno extends JFrame {
 
@@ -38,11 +40,14 @@ public class JFrameAlumno extends JFrame {
 	private JButton botonGuardar = new JButton("Guardar");
 	private Ventana ventana;
 	private JFrameOpciones jFrameOpciones;
+	private ArrayList<Maestro> maestros;
+	private Maestro mSeleccionado;
 
-	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) {
+	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) throws SQLException {
 		textFieldDniMaestro.setBounds(114, 47, 86, 20);
 		textFieldDniMaestro.setColumns(10);
 		this.ventana = ventana;
+		this.maestros = ventana.obtenerTodosLosMaestros();
 		this.jFrameOpciones = jFrameOpciones;
 		this.inicializarDatos(alumno);
 		this.inicializarBotones(alumno);
@@ -102,16 +107,27 @@ public class JFrameAlumno extends JFrame {
 		contentPane.add(etiquetaMaestro);
 
 		contentPane.add(textFieldDniMaestro);
-
-		choiseProfesores.setBounds(115, 21, 85, 20);
+		
+		choiseProfesores.setBounds(115, 21, 215, 20);
 		contentPane.add(choiseProfesores);
+		
+		
+		choiseProfesores.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+				Maestro m = maestros.get(choiseProfesores.getSelectedIndex());
+				mSeleccionado = maestros.get(choiseProfesores.getSelectedIndex());
+				textFieldDniMaestro.setText(m.getDocumento());
+				textFieldDniMaestro.setEnabled(false);
+			}
+		});
 	}
 
-	private void inicializarDatos(Alumno alumno) {
+	private void inicializarDatos(Alumno alumno) throws SQLException {
+		
 		if (alumno != null) {
-			choiseProfesores.add(alumno.getMaestro().getNombre());
-			this.textFieldDniMaestro.setText(alumno.getMaestro().getDocumento());
-			this.textFieldDniMaestro.setEnabled(false);
+			for (Maestro m : maestros) {
+				choiseProfesores.add(String.valueOf(m.getNombre()));
+			}
 			this.textFieldNombre.setText(alumno.getNombre());
 			this.textFieldDocumento.setText(alumno.getDocumento());
 			this.textFieldDocumento.setEnabled(false);
@@ -126,12 +142,14 @@ public class JFrameAlumno extends JFrame {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
-				// choiseProfesores.getSelectedIndex()
 				String dniMaestro = textFieldDniMaestro.getText();
 				if (dniMaestro == null || dniMaestro.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vacío, campo obligatorio");
 					error = true;
 				}
+				// Obtener ID del maestro de alguna manera
+				Integer idMaestro = mSeleccionado.getIdMaestro();
+				///////////////////////////////////////////////////////////////////
 				String nombre = textFieldNombre.getText();
 				if (nombre == null || nombre.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío, campo obligatorio");
@@ -146,7 +164,6 @@ public class JFrameAlumno extends JFrame {
 				if (genero == null || genero.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "El genero no puede estar vacío, campo obligatorio");
 					error = true;
-
 				}
 				Integer edad = Integer.parseInt(textFieldEdad.getText());
 				String sEdad = String.valueOf(edad);
@@ -164,10 +181,11 @@ public class JFrameAlumno extends JFrame {
 					JOptionPane.showMessageDialog(null, "La fecha no puede estar vacío, campo obligatorio");
 					error = true;
 				}
-				if (!error) { 
+				if (!error) {
 					try {
 						if (alumno != null) {
-							ventana.modificarAlumno(alumno.getDocumento(), nombre, genero, edad, mail, fechaIngreso);
+							ventana.modificarAlumno(alumno.getDocumento(), idMaestro, nombre, genero, edad, mail,
+									fechaIngreso);
 							jFrameOpciones.reiniciarListaAlumno();
 						} else {
 							ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
@@ -178,10 +196,7 @@ public class JFrameAlumno extends JFrame {
 					}
 				}
 				setVisible(false);
-
 			}
-
 		});
-
 	}
 }

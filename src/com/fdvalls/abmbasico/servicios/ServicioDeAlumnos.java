@@ -39,13 +39,13 @@ public class ServicioDeAlumnos {
 		return sePudo;
 	}
 	//alumno.getDocumento(), nombre, genero, edad, mail, fechaIngreso
-	public boolean modificarAlumno(String dniAlumno, String nombre, String genero, int edad, String mail, String fecha)
+	public boolean modificarAlumno(String dniAlumno, Integer idMaestro, String nombre, String genero, int edad, String mail, String fecha)
 			throws SQLException {
 		boolean sePudo = false;
 		AlumnoDAO alumnoDAO = new AlumnoDAO(); 
 		Alumno a = alumnoDAO.obtenerAlumnoPorDNI(dniAlumno);
 		if (a != null) {
-			alumnoDAO.modificarAlumno(dniAlumno, nombre, genero, edad, mail, fecha);
+			alumnoDAO.modificarAlumno(dniAlumno, idMaestro, nombre, genero, edad, mail, fecha);
 			sePudo = true; 
 		} 
 		return sePudo;

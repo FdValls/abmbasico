@@ -117,11 +117,10 @@ public class JFrameMaestro extends JFrame {
 					try {
 						if (maestro != null) {
 							ventana.modificarMaestro(nombre, documento, edad, mail);
-							jFrameOpciones.reiniciarListaMaestros();
 						} else {
 							ventana.crearMaestro(null, nombre, documento, edad, mail);
-							jFrameOpciones.reiniciarListaMaestros();
 						}
+						jFrameOpciones.reiniciarListaMaestros();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
