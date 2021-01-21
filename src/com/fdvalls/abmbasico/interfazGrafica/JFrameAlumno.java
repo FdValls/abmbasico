@@ -18,39 +18,38 @@ import java.awt.Choice;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
-public class JFrameAlumno extends JFrame {
+public abstract class JFrameAlumno extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textFieldDniMaestro = new JTextField();
-	private JTextField textFieldNombre = new JTextField();
-	private JTextField textFieldDocumento = new JTextField();
-	private JTextField textFieldGenero = new JTextField();
-	private JTextField textFieldEdad = new JTextField();
-	private JTextField textFieldMail = new JTextField();
-	private JTextField textFieldFechaDeIngreso = new JTextField();
-	private JLabel etiquetaMaestro = new JLabel("DNI del profesor");
-	private JLabel etiquetaNombre = new JLabel("Nombre");
-	private JLabel etiquetaDocumento = new JLabel("Documento");
-	private JLabel etiquetaGenero = new JLabel("Genero");
-	private JLabel etiquetaEdad = new JLabel("Edad");
-	private JLabel etiquetaMail = new JLabel("Mail");
-	private JLabel etiquetaFechaIngreso = new JLabel("Fecha de ingreso");
-	private Choice choiseProfesores = new Choice();
-	private JButton botonGuardar = new JButton("Guardar");
-	private Ventana ventana;
-	private JFrameOpciones jFrameOpciones;
-	private ArrayList<Maestro> maestros;
-	private Maestro mSeleccionado;
+	protected JPanel contentPane;
+	protected JTextField textFieldDniMaestro = new JTextField();
+	protected JTextField textFieldNombre = new JTextField();
+	protected JTextField textFieldDocumento = new JTextField();
+	protected JTextField textFieldGenero = new JTextField();
+	protected JTextField textFieldEdad = new JTextField();
+	protected JTextField textFieldMail = new JTextField();
+	protected JTextField textFieldFechaDeIngreso = new JTextField();
+	protected JLabel etiquetaMaestro = new JLabel("DNI del profesor");
+	protected JLabel etiquetaNombre = new JLabel("Nombre");
+	protected JLabel etiquetaDocumento = new JLabel("Documento");
+	protected JLabel etiquetaGenero = new JLabel("Genero");
+	protected JLabel etiquetaEdad = new JLabel("Edad");
+	protected JLabel etiquetaMail = new JLabel("Mail");
+	protected JLabel etiquetaFechaIngreso = new JLabel("Fecha de ingreso");
+	protected Choice choiseProfesores = new Choice();
+	protected JButton botonGuardar = new JButton("Guardar");
+	protected Ventana ventana;
+	protected JFrameOpciones jFrameOpciones;
+	protected ArrayList<Maestro> maestros;
+	protected Maestro mSeleccionado;
 
-	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) throws SQLException {
+	public JFrameAlumno(Ventana ventana, JFrameOpciones jFrameOpciones) throws SQLException {
 		textFieldDniMaestro.setBounds(114, 47, 86, 20);
 		textFieldDniMaestro.setColumns(10);
 		this.ventana = ventana;
 		this.maestros = ventana.obtenerTodosLosMaestros();
 		this.jFrameOpciones = jFrameOpciones;
-		this.inicializarDatos(alumno);
-		this.inicializarBotones(alumno);
+		this.inicializarBotones();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 450);
 		contentPane = new JPanel();
@@ -122,29 +121,14 @@ public class JFrameAlumno extends JFrame {
 		});
 	}
 
-	private void inicializarDatos(Alumno alumno) throws SQLException {
-		
-		if (alumno != null) {
-			for (Maestro m : maestros) {
-				choiseProfesores.add(String.valueOf(m.getNombre()));
-			}
-			this.textFieldNombre.setText(alumno.getNombre());
-			this.textFieldDocumento.setText(alumno.getDocumento());
-			this.textFieldDocumento.setEnabled(false);
-			this.textFieldGenero.setText(alumno.getGenero());
-			this.textFieldEdad.setText(String.valueOf(alumno.getEdad()));
-			this.textFieldMail.setText(alumno.getMail());
-			this.textFieldFechaDeIngreso.setText(alumno.getFecha());
-		}
-	}
 
-	private void inicializarBotones(Alumno alumno) {
+	private void inicializarBotones() {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
 				String dniMaestro = textFieldDniMaestro.getText();
 				if (dniMaestro == null || dniMaestro.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				// Obtener ID del maestro de alguna manera
@@ -152,45 +136,46 @@ public class JFrameAlumno extends JFrame {
 				///////////////////////////////////////////////////////////////////
 				String nombre = textFieldNombre.getText();
 				if (nombre == null || nombre.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El nombre no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String documento = textFieldDocumento.getText();
 				if (documento == null || documento.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El documento no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El documento no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String genero = textFieldGenero.getText();
 				if (genero == null || genero.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El genero no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El genero no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				Integer edad = Integer.parseInt(textFieldEdad.getText());
 				String sEdad = String.valueOf(edad);
 				if (edad == null || sEdad.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La edad no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "La edad no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String mail = textFieldMail.getText();
 				if (mail == null || mail.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El mail no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El mail no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String fechaIngreso = textFieldFechaDeIngreso.getText();
 				if (fechaIngreso == null || fechaIngreso.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La fecha no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "La fecha no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				if (!error) {
 					try {
-						if (alumno != null) {
-							ventana.modificarAlumno(alumno.getDocumento(), idMaestro, nombre, genero, edad, mail,
-									fechaIngreso);
-							jFrameOpciones.reiniciarListaAlumno();
-						} else {
-							ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
-							jFrameOpciones.reiniciarListaAlumno();
-						}
+						ejecutarAccionBotonGuardar(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
+//						if (alumno != null) {
+//							ventana.modificarAlumno(alumno.getDocumento(), idMaestro, nombre, genero, edad, mail,
+//									fechaIngreso);
+//						} else {
+//							ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
+//							jFrameOpciones.reiniciarListaAlumno();
+//						}
+						jFrameOpciones.reiniciarListaAlumno();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
@@ -199,4 +184,7 @@ public class JFrameAlumno extends JFrame {
 			}
 		});
 	}
+	
+	protected abstract void ejecutarAccionBotonGuardar(String dniMaestro, String nombre, String documento, String genero, int edad, String mail,
+			String fecha);
 }

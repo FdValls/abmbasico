@@ -82,7 +82,7 @@ public class JFrameOpciones extends JFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				JFrameAlumno ventanaCrearAlumno;
 				try {
-					ventanaCrearAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, null);
+					ventanaCrearAlumno = new JFrameAlumnoCrear(ventana, JFrameOpciones.this);
 					ventanaCrearAlumno.setVisible(true);
 					reiniciarListaAlumno();
 				} catch (SQLException e1) {
@@ -141,7 +141,7 @@ public class JFrameOpciones extends JFrame {
 				Alumno alumnoSeleccionado = alumnos.get(indiceAlumnoSeleccionado);
 				JFrameAlumno ventanaAlumno;
 				try {
-					ventanaAlumno = new JFrameAlumno(ventana, JFrameOpciones.this, alumnoSeleccionado);
+					ventanaAlumno = new JFrameAlumnoModificar(ventana, JFrameOpciones.this, alumnoSeleccionado);
 					ventanaAlumno.setVisible(true);
 				} catch (SQLException e) {
 					e.printStackTrace();
