@@ -7,16 +7,16 @@ import com.fdvalls.abmbasico.modelo.Maestro;
 
 public class JFrameAlumnoModificar extends JFrameAlumno {
 
-	private Alumno alumno;
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public JFrameAlumnoModificar(Ventana ventana, JFrameOpciones jFrameOpciones, Alumno alumno) throws SQLException {
 		super(ventana, jFrameOpciones);
-		this.alumno = alumno;
 		this.inicializarDatos(alumno);
 	}
 
 	private void inicializarDatos(Alumno alumno) throws SQLException {
-		
+
 		if (alumno != null) {
 			for (Maestro m : maestros) {
 				choiseProfesores.add(String.valueOf(m.getNombre()));
@@ -32,14 +32,12 @@ public class JFrameAlumnoModificar extends JFrameAlumno {
 	}
 
 	@Override
-	protected void ejecutarAccionBotonGuardar(String dniMaestro, String nombre, String documento, String genero,
+	protected void ejecutarAccionBotonGuardar(String dniAlumno, Integer idMaestro, String nombre, String genero,
 			int edad, String mail, String fecha) {
 		try {
-			this.ventana.modificarAlumno(documento, null, nombre, genero, edad, mail, fecha);
+			this.ventana.modificarAlumno(dniAlumno, idMaestro, nombre, genero, edad, mail, fecha);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }

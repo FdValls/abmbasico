@@ -13,7 +13,6 @@ public class ServicioDeAlumnos {
 	private final AlumnoDAO alumnoDAO = new AlumnoDAO();
 	private final MaestroDAO maestroDAO = new MaestroDAO();
 
-	// si alumnoDAO ya tiene los alumnos, aca me arranca en null, segun DEBUGGER
 	public ArrayList<Alumno> obtenerTodosLosAlumnos() throws SQLException {
 		AlumnoDAO alumnoDAO = new AlumnoDAO();
 		ArrayList<Alumno> misAlumnos = alumnoDAO.obtenerTodosLosAlumnos();

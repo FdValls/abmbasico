@@ -3,7 +3,6 @@ package com.fdvalls.abmbasico.interfazGrafica;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.fdvalls.abmbasico.modelo.Alumno;
 import com.fdvalls.abmbasico.modelo.Maestro;
 
 import javax.swing.JTextField;
@@ -106,11 +105,10 @@ public abstract class JFrameAlumno extends JFrame {
 		contentPane.add(etiquetaMaestro);
 
 		contentPane.add(textFieldDniMaestro);
-		
+
 		choiseProfesores.setBounds(115, 21, 215, 20);
 		contentPane.add(choiseProfesores);
-		
-		
+
 		choiseProfesores.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
 				Maestro m = maestros.get(choiseProfesores.getSelectedIndex());
@@ -121,70 +119,73 @@ public abstract class JFrameAlumno extends JFrame {
 		});
 	}
 
-
 	private void inicializarBotones() {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
-				String dniMaestro = textFieldDniMaestro.getText();
-				if (dniMaestro == null || dniMaestro.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El dni del maestro no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				// Obtener ID del maestro de alguna manera
-				Integer idMaestro = mSeleccionado.getIdMaestro();
-				///////////////////////////////////////////////////////////////////
-				String nombre = textFieldNombre.getText();
-				if (nombre == null || nombre.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El nombre no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				String documento = textFieldDocumento.getText();
-				if (documento == null || documento.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El documento no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				String genero = textFieldGenero.getText();
-				if (genero == null || genero.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El genero no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				Integer edad = Integer.parseInt(textFieldEdad.getText());
-				String sEdad = String.valueOf(edad);
-				if (edad == null || sEdad.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La edad no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				String mail = textFieldMail.getText();
-				if (mail == null || mail.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El mail no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				String fechaIngreso = textFieldFechaDeIngreso.getText();
-				if (fechaIngreso == null || fechaIngreso.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La fecha no puede estar vac�o, campo obligatorio");
-					error = true;
-				}
-				if (!error) {
-					try {
-						ejecutarAccionBotonGuardar(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
-//						if (alumno != null) {
-//							ventana.modificarAlumno(alumno.getDocumento(), idMaestro, nombre, genero, edad, mail,
-//									fechaIngreso);
-//						} else {
-//							ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fechaIngreso);
-//							jFrameOpciones.reiniciarListaAlumno();
-//						}
-						jFrameOpciones.reiniciarListaAlumno();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
+				try {
+					String dniMaestro = textFieldDniMaestro.getText();
+					if (dniMaestro == null || dniMaestro.isEmpty()) {
+						JOptionPane.showMessageDialog(null,
+								"El dni del maestro no puede estar vac�o, campo obligatorio");
+						error = true;
 					}
+					Maestro m = ventana.obtenerMaestroPorDni(dniMaestro);
+					Integer idMaestro = m.getIdMaestro();
+					String nombre = textFieldNombre.getText();
+					if (nombre == null || nombre.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El nombre no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					String documento = textFieldDocumento.getText();
+					if (documento == null || documento.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El documento no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					String genero = textFieldGenero.getText();
+					if (genero == null || genero.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El genero no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					Integer edad = Integer.parseInt(textFieldEdad.getText());
+					String sEdad = String.valueOf(edad);
+					if (edad == null || sEdad.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "La edad no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					String mail = textFieldMail.getText();
+					if (mail == null || mail.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "El mail no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					String fechaIngreso = textFieldFechaDeIngreso.getText();
+					if (fechaIngreso == null || fechaIngreso.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "La fecha no puede estar vac�o, campo obligatorio");
+						error = true;
+					}
+					if (!error) {
+						try {
+							ejecutarAccionBotonGuardarCrear(dniMaestro, nombre, documento, genero, edad, mail,
+									fechaIngreso);
+							ejecutarAccionBotonGuardar(documento, idMaestro, nombre, genero, edad, mail, fechaIngreso);
+							jFrameOpciones.reiniciarListaAlumno();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+					setVisible(false);
+				} catch (SQLException e2) {
+					e2.printStackTrace();
 				}
-				setVisible(false);
 			}
 		});
 	}
-	
-	protected abstract void ejecutarAccionBotonGuardar(String dniMaestro, String nombre, String documento, String genero, int edad, String mail,
-			String fecha);
+
+	protected void ejecutarAccionBotonGuardar(String dniAlumno, Integer idMaestro, String nombre, String genero,
+			int edad, String mail, String fecha) {
+	}
+
+	protected void ejecutarAccionBotonGuardarCrear(String dniMaestro, String nombre, String documento, String genero,
+			int edad, String mail, String fecha) {
+	}
 }

@@ -27,7 +27,6 @@ public class JFrameOpciones extends JFrame {
 	private JButton botonBorrarMaestro = new JButton("Borrar Maestro");
 	private JButton botonModificarAlumno = new JButton("Modificar Alumno");
 	private JButton botonModificarMaestro = new JButton("Modificar Maestro");
-
 	private ArrayList<Alumno> alumnos;
 	private ArrayList<Maestro> maestros;
 	private Ventana ventana;
@@ -80,13 +79,12 @@ public class JFrameOpciones extends JFrame {
 	private void inicializarBotones() {
 		botonCrearAlumno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				JFrameAlumno ventanaCrearAlumno;
+				JFrameAlumno ventanaCrearAlumno = null;
 				try {
 					ventanaCrearAlumno = new JFrameAlumnoCrear(ventana, JFrameOpciones.this);
 					ventanaCrearAlumno.setVisible(true);
 					reiniciarListaAlumno();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -96,7 +94,7 @@ public class JFrameOpciones extends JFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				JFrameMaestro ventanaCrearMaestro = null;
 				try {
-					ventanaCrearMaestro = new JFrameMaestro(ventana, JFrameOpciones.this, null);
+					ventanaCrearMaestro = new JFrameMaestroCrear(ventana, JFrameOpciones.this);
 					reiniciarListaMaestros();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -153,10 +151,10 @@ public class JFrameOpciones extends JFrame {
 		botonModificarMaestro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				int indiceMaestroSeleccionado = listaMaestros.getSelectedIndex();
+				Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
+				JFrameMaestro ventanaMaestro;
 				try {
-					Maestro maestroSeleccionado = maestros.get(indiceMaestroSeleccionado);
-					JFrameMaestro ventanaMaestro;
-					ventanaMaestro = new JFrameMaestro(ventana, JFrameOpciones.this, maestroSeleccionado);
+					ventanaMaestro = new JFrameMaestroModificar(ventana, JFrameOpciones.this, maestroSeleccionado);
 					ventanaMaestro.setVisible(true);
 				} catch (SQLException e) {
 					e.printStackTrace();
