@@ -15,27 +15,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class JFrameMaestro extends JFrame {
+public abstract class JFrameMaestro extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private Ventana ventana;
-	private JFrameOpciones jFrameOpciones;
-	private JPanel contentPane;
-	private JTextField textFieldNombre = new JTextField();
-	private JTextField textFieldDocumento = new JTextField();
-	private JTextField textFieldEdad = new JTextField();
-	private JTextField textFieldMail = new JTextField();
-	private JLabel etiquetaNombre = new JLabel("Nombre");
-	private JLabel etiquetaDocumento = new JLabel("Documento");
-	private JLabel etiquetaEdad = new JLabel("Edad");
-	private JLabel etiquetaMail = new JLabel("Mail");
-	private JButton botonGuardar = new JButton("Guardar");
+	protected static final long serialVersionUID = 1L;
+	protected Ventana ventana;
+	protected JFrameOpciones jFrameOpciones;
+	protected JPanel contentPane;
+	protected JTextField textFieldNombre = new JTextField();
+	protected JTextField textFieldDocumento = new JTextField();
+	protected JTextField textFieldEdad = new JTextField();
+	protected JTextField textFieldMail = new JTextField();
+	protected JLabel etiquetaNombre = new JLabel("Nombre");
+	protected JLabel etiquetaDocumento = new JLabel("Documento");
+	protected JLabel etiquetaEdad = new JLabel("Edad");
+	protected JLabel etiquetaMail = new JLabel("Mail");
+	protected JButton botonGuardar = new JButton("Guardar");
+	private Maestro maestro;
 
-	public JFrameMaestro(Ventana ventana, JFrameOpciones jFrameOpciones, Maestro maestro) throws SQLException {
+	public JFrameMaestro(Ventana ventana, JFrameOpciones jFrameOpciones) throws SQLException {
 		this.ventana = ventana;
 		this.jFrameOpciones = jFrameOpciones;
 		inicializarDatos(maestro);
-		inicializarBotones(maestro);
+		inicializarBotones();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 668, 477);
 		contentPane = new JPanel();
@@ -85,49 +86,57 @@ public class JFrameMaestro extends JFrame {
 		}
 	}
 
-	private void inicializarBotones(Maestro maestro) {
+	private void inicializarBotones() {
 		botonGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean error = false;
 				String nombre = textFieldNombre.getText();
 				if (nombre == null || nombre.isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"El nombre del maestro no puede estar vacío, campo obligatorio");
+							"El nombre del maestro no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String documento = textFieldDocumento.getText();
 				if (documento == null || documento.isEmpty()) {
 					JOptionPane.showMessageDialog(null,
-							"El documento del maestro no puede estar vacío, campo obligatorio");
+							"El documento del maestro no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				Integer edad = Integer.parseInt(textFieldEdad.getText());
 				String sEdad = String.valueOf(edad);
 				if (edad == null || sEdad.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La edad del maestro no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "La edad del maestro no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 				String mail = textFieldMail.getText();
 				if (mail == null || mail.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "El mail del maestro no puede estar vacío, campo obligatorio");
+					JOptionPane.showMessageDialog(null, "El mail del maestro no puede estar vacï¿½o, campo obligatorio");
 					error = true;
 				}
 
 				if (!error) {
 					try {
-						if (maestro != null) {
-							ventana.modificarMaestro(nombre, documento, edad, mail);
-						} else {
-							ventana.crearMaestro(null, nombre, documento, edad, mail);
-						}
+						ejecutarAccionBotonGuardar(nombre, documento, edad, mail);
 						jFrameOpciones.reiniciarListaMaestros();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
+//					try {
+//						if (maestro != null) {
+//							ventana.modificarMaestro(nombre, documento, edad, mail);
+//						} else {
+//							ventana.crearMaestro(null, nombre, documento, edad, mail);
+//						}
+//						jFrameOpciones.reiniciarListaMaestros();
+//					} catch (SQLException e1) {
+//						e1.printStackTrace();
+//					}
 				}
-				setVisible(false); 
+				setVisible(false);
 			}
 
 		});
 	}
+
+	protected abstract void ejecutarAccionBotonGuardar(String nombre, String dni, int edad, String mail);
 }
