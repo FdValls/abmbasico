@@ -11,10 +11,10 @@ public class JFrameAlumnoCrear extends JFrameAlumno {
 		super(ventana, jFrameOpciones);
 	}
 
-	protected void ejecutarAccionBotonGuardarCrear(String dniMaestro, String nombre, String documento, String genero,
-			int edad, String mail, String fecha) {
+	protected void ejecutarAccionBotonGuardar(String dniAlumno, Integer idMaestro, String nombre, String genero,
+		int edad, String mail, String fecha) {
 		try {
-			this.ventana.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fecha);
+			this.ventana.crearAlumno(dniAlumno, idMaestro, nombre, genero, edad, mail, fecha);
 			jFrameOpciones.reiniciarListaAlumno();
 		} catch (SQLException e) {
 			e.printStackTrace();

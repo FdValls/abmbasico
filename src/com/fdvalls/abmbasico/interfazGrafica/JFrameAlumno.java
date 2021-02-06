@@ -165,8 +165,6 @@ public abstract class JFrameAlumno extends JFrame {
 					}
 					if (!error) {
 						try {
-							ejecutarAccionBotonGuardarCrear(dniMaestro, nombre, documento, genero, edad, mail,
-									fechaIngreso);
 							ejecutarAccionBotonGuardar(documento, idMaestro, nombre, genero, edad, mail, fechaIngreso);
 							jFrameOpciones.reiniciarListaAlumno();
 						} catch (SQLException e1) {
@@ -181,11 +179,7 @@ public abstract class JFrameAlumno extends JFrame {
 		});
 	}
 
-	protected void ejecutarAccionBotonGuardar(String dniAlumno, Integer idMaestro, String nombre, String genero,
-			int edad, String mail, String fecha) {
-	}
-
-	protected void ejecutarAccionBotonGuardarCrear(String dniMaestro, String nombre, String documento, String genero,
-			int edad, String mail, String fecha) {
-	}
+	protected abstract void ejecutarAccionBotonGuardar(String dniAlumno, Integer idMaestro, String nombre, String genero,
+			int edad, String mail, String fecha);
+	
 }
