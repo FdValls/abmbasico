@@ -18,9 +18,9 @@ public class Ventana extends InterfazGrafica {
 		ventanaOpciones.setVisible(true);
 	}
 
-	public void crearAlumno(String dniMaestro, String nombre, String documento, String genero, int edad, String mail,
+	public void crearAlumno(String dniAlumno, Integer idMaestro, String nombre, String genero, int edad, String mail,
 			String fecha) throws SQLException {
-		servicioDeAlumnos.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fecha);
+		servicioDeAlumnos.crearAlumno(dniAlumno, idMaestro, nombre, genero, edad, mail, fecha);
 	}
 
 	public void crearMaestro(Integer idMaestro, String nombre, String documento, int edad, String mail)

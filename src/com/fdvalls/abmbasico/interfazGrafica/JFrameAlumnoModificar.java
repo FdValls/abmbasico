@@ -16,19 +16,16 @@ public class JFrameAlumnoModificar extends JFrameAlumno {
 	}
 
 	private void inicializarDatos(Alumno alumno) throws SQLException {
-
-		if (alumno != null) {
-			for (Maestro m : maestros) {
-				choiseProfesores.add(String.valueOf(m.getNombre()));
-			}
-			this.textFieldNombre.setText(alumno.getNombre());
-			this.textFieldDocumento.setText(alumno.getDocumento());
-			this.textFieldDocumento.setEnabled(false);
-			this.textFieldGenero.setText(alumno.getGenero());
-			this.textFieldEdad.setText(String.valueOf(alumno.getEdad()));
-			this.textFieldMail.setText(alumno.getMail());
-			this.textFieldFechaDeIngreso.setText(alumno.getFecha());
+		for (Maestro m : maestros) {
+			choiseProfesores.add(String.valueOf(m.getNombre()));
 		}
+		this.textFieldNombre.setText(alumno.getNombre());
+		this.textFieldDocumento.setText(alumno.getDocumento());
+		this.textFieldDocumento.setEnabled(false);
+		this.textFieldGenero.setText(alumno.getGenero());
+		this.textFieldEdad.setText(String.valueOf(alumno.getEdad()));
+		this.textFieldMail.setText(alumno.getMail());
+		this.textFieldFechaDeIngreso.setText(alumno.getFecha());
 	}
 
 	@Override

@@ -68,8 +68,8 @@ public class Consola extends InterfazGrafica {
 	}
 
 	private void crearAlumno() throws SQLException {
-		System.out.println("Ingresar un dni del maestro");
-		String dniMaestro = sc.nextLine();
+		System.out.println("Ingresar un id del maestro");
+		Integer idMaestro = Integer.valueOf(sc.nextLine());
 		System.out.println("Ingresar un nombre");
 		String nombre = sc.nextLine();
 		System.out.println("Ingresar un documento");
@@ -82,7 +82,7 @@ public class Consola extends InterfazGrafica {
 		String mail = sc.nextLine();
 		System.out.println("Ingresar una fecha nacimiento");
 		String fecha = sc.nextLine();
-		SERVICIO_DE_ALUMNOS.crearAlumno(dniMaestro, nombre, documento, genero, edad, mail, fecha);
+		SERVICIO_DE_ALUMNOS.crearAlumno(documento, idMaestro, nombre, genero, edad, mail, fecha);
 	}
 
 	private void modificarAlumno() throws SQLException {

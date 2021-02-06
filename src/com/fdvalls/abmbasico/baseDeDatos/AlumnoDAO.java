@@ -64,6 +64,26 @@ public class AlumnoDAO {
 		instruccion.close();
 		return a; 
 	}
+	
+	public Alumno obtenerAlumnoPorNombre(String nombre) throws SQLException {
+		Alumno a = null;
+		Statement instruccion = Conexion.getInstance().createStatement();
+		// Crear una consulta Query
+		String sql = "select a.idAlumno, a.id_Maestro, a.nombre, a.documento, a.genero, a.edad, a.mail, a.fechaIngreso,"
+				+ " m.idMaestro, m.nombre, m.documento, m.edad, m.mail" + " from alumnos as a"
+				+ " inner join maestro as m on a.id_Maestro = m.idMaestro " + " where a.nombre = '"+ "'" + nombre + "'";
+		ResultSet result = instruccion.executeQuery(sql);
+		while (result.next()) {
+			Maestro maestro = new Maestro(result.getInt(9), result.getString(10), result.getString(11),
+					result.getInt(12), result.getString(13));
+			a = new Alumno(result.getInt(1), maestro, result.getString(3), result.getString(4), result.getString(5),
+					result.getInt(6), result.getString(7), result.getString(8));
+		}
+		instruccion.close();
+		return a; 
+	}
+	
+	
 
 	public void modificarAlumno(String dniAlumno, Integer idMaestro, String nombre, String genero, int edad, String mail, String fecha)
 			throws SQLException {
